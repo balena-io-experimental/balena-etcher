@@ -52,13 +52,16 @@ WORKDIR /usr/src/app
 COPY "$SOURCEFOLDER/app/package.json" ./
 
 # NPM i app
-RUN JOBS=MAX npm i --production
+ENV npm_config_disturl https://atom.io/download/atom-shell
+ENV npm_config_target 1.2.6
+ENV npm_config_arch arm
+ENV npm_config_runtime electron
+RUN JOBS=MAX npm install --production --build-from-source
+RUN npm install -g bower
+RUN bower install --production
 
 # Move app to filesystem
 COPY "$SOURCEFOLDER/app" ./
-
-# NPM rebuild node native modules after electron is installed.
-RUN ./node_modules/.bin/electron-rebuild
 
 ## uncomment if you want systemd
 ENV INITSYSTEM on
