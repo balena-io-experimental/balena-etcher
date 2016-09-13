@@ -40,7 +40,7 @@ const utils = require('./utils');
 // parent process, taking care of the writer elevation as needed.
 
 const EXECUTABLE = process.argv[0];
-const ETCHER_ARGUMENTS = process.argv.slice(2);
+const ETCHER_ARGUMENTS = process.argv.slice(3);
 
 return isElevated().then((elevated) => {
   console.log(`Is elevated? ${elevated}`);
@@ -202,6 +202,7 @@ return isElevated().then((elevated) => {
 
   return new Bluebird((resolve, reject) => {
     console.log(EXECUTABLE);
+    console.log('Etcher arguments');
     console.log(ETCHER_ARGUMENTS);
     const child = childProcess.spawn(EXECUTABLE, ETCHER_ARGUMENTS);
 
