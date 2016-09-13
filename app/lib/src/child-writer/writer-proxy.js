@@ -43,7 +43,9 @@ const EXECUTABLE = process.argv[0];
 const ETCHER_ARGUMENTS = process.argv.slice(2);
 
 return isElevated().then((elevated) => {
+  console.log(`Is elevated? ${elevated}`);
   const logFile = process.env[CONSTANTS.TEMPORARY_LOG_FILE_ENVIRONMENT_VARIABLE];
+  console.log(logFile);
 
   if (process.send) {
     console.log(`Tailing ${logFile}`);
@@ -181,6 +183,8 @@ return isElevated().then((elevated) => {
       ).join(' ');
     });
 
+    console.log('Elevating!!!');
+
     return sudoPrompt.execAsync(command, {
       name: packageJSON.displayName
     }).then((stdout, stderr) => {
@@ -197,6 +201,8 @@ return isElevated().then((elevated) => {
   console.log('Re-spawning with elevation');
 
   return new Bluebird((resolve, reject) => {
+    console.log(EXECUTABLE);
+    console.log(ETCHER_ARGUMENTS);
     const child = childProcess.spawn(EXECUTABLE, ETCHER_ARGUMENTS);
 
     child.stdout.on('data', (data) => {

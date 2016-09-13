@@ -70,6 +70,9 @@ exports.write = (image, drive, options) => {
     // while keeping current environment variables intact.
     process.env[CONSTANTS.TEMPORARY_LOG_FILE_ENVIRONMENT_VARIABLE] = logFile;
 
+    console.log(CONSTANTS.WRITER_PROXY_SCRIPT);
+    console.log(argv);
+
     const child = childProcess.fork(CONSTANTS.WRITER_PROXY_SCRIPT, argv, {
       silent: true,
       env: process.env
@@ -84,6 +87,7 @@ exports.write = (image, drive, options) => {
     });
 
     child.on('message', (message) => {
+      console.log(message);
 
       // The error object is decomposed by the CLI for serialisation
       // purposes. We compose it back to an `Error` here in order
