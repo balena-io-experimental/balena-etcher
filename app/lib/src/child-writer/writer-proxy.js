@@ -199,6 +199,7 @@ return isElevated().then((elevated) => {
   }
 
   console.log('Re-spawning with elevation');
+  console.log(process.binding('buffer').kStringMaxLength);
 
   return new Bluebird((resolve, reject) => {
     console.log(EXECUTABLE);
@@ -207,10 +208,16 @@ return isElevated().then((elevated) => {
     const child = childProcess.spawn(EXECUTABLE, ETCHER_ARGUMENTS);
 
     child.stdout.on('data', (data) => {
+      console.log('Got stdout data');
+      console.log(data);
+      console.log(data.length);
       console.log(data.toString());
     });
 
     child.stderr.on('data', (data) => {
+      console.log('Got stderr data');
+      console.log(data);
+      console.log(data.length);
       console.error(data.toString());
     });
 
